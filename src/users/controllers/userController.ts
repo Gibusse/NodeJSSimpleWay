@@ -1,6 +1,12 @@
 import express from 'express';
+import { usersService } from '../services/usersService';
 
-export const findUsers = (req: express.Request, res: express.Response) => {
-    return res.send('Controller find users...');
-};
+class UsersController {
+    public async findUsers (req: express.Request, res: express.Response): Promise<void> {
+        const response = await usersService.find();
+        res.send(response);
+    };
+}
+
+export const usersController: UsersController = new UsersController();
 

@@ -1,6 +1,7 @@
 export interface User {
+    firstName: string,
+    lastName: string,
     email: string,
-    firstname?: string,
-    lastname?: string,
-    password?: string
+    password: string,
+    permissionLevel: number
 }

@@ -1,14 +1,15 @@
 import bcrypt from 'bcrypt';
 import { User } from "users/models/user";
 import { userRepository } from "../repositories/IRepository";
+import { ClientError } from 'core/exceptions/clientError';
 
 export class UsersService {
-    public async find(): Promise<any> {
+    public async find(): Promise<User[]> {
         const findUsers = await userRepository.find();
         return findUsers;
     }
 
-    public async create(user: User): Promise<any> {
+    public async create(user: User): Promise<User> {
         const salt = bcrypt.genSaltSync(16);
         const passwordHash = bcrypt.hashSync(user.password, salt);
         const userCreated = await userRepository.create({...user, password: passwordHash});
@@ -25,6 +26,11 @@ export class UsersService {
             return user.email;
         }
         throw new Error('inconnu...');
+    }
+
+    public async get(id: string): Promise<User> {
+        const user = await userRepository.get(id);
+        return user;
     }
 }
 export const usersService: UsersService = new UsersService();

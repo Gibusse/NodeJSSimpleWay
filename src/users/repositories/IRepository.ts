@@ -2,9 +2,10 @@ import { User } from 'users/models/user';
 import { UserRepositoryDb } from '../repositories/db/repository'
 
 export interface IUserRepository {
-    find(): Promise<string>;
-    create(user: User): Promise<any>;
-    get(): Promise<void>;
+    find(): Promise<User[]>;
+    create(user: User): Promise<User>;
+    get(id: string): Promise<User>;
     update(user: User): Promise<void>;
+    getByUsername(username: string): Promise<User>;
 }
 export const userRepository: IUserRepository = new UserRepositoryDb();

@@ -1,8 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 
-import { Config } from '../../configs/config';
+import { config } from '../../configs/config';
 import usersRoute from '../users/routes/index';
+import { errorHandler } from './middlewares/errorHandler';
+import auth from './auth';
 
 const app = express();
 
@@ -25,9 +27,13 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));
 
 
-app.use(Config.api, usersRoute());
+app.use(config.api, auth());
+app.use(config.api, usersRoute());
 
 
-app.listen(Config.port, () => {
+app.use(errorHandler);
+
+
+app.listen(config.port, () => {
     console.log('Server running...');
 });

@@ -10,11 +10,11 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
     const token = <string>req.headers['authorization'];
 
     try {
-        const jwtPayload = <any>verify(token?.split(' ')[1], config.jwt.secret, {
+        const jwtPayload = verify(token?.split(' ')[1], config.jwt.secret, {
             complete: true,
             audience: config.jwt.audience,
             issuer: config.jwt.issuer,
-            algorithms: ['RS256'],
+            algorithms: ['HS256'],
             clockTimestamp: 0,
             ignoreExpiration: false,
             ignoreNotBefore: false
@@ -25,6 +25,6 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
         res.status(401).type(`json`).send(JSON.stringify({ message: 'Missing or invalid token '}));
         return;
     }
-    
+
     next();
 }

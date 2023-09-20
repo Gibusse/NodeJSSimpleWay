@@ -1,9 +1,9 @@
 export class CustomError extends Error {
     message: string | undefined;
     status: number | undefined;
-    additionalInfo: any;
+    additionalInfo?: unknown;
 
-    constructor(message: string, status: number = 500, additonalInfo: any = undefined) {
+    constructor(message: string, status: number = 500, additonalInfo?: unknown) {
         super(message);
         this.message = message;
         this.status = status;
